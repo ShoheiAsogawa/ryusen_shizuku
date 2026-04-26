@@ -12,14 +12,24 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100%;
+}
 
 body {
   margin: 0;
   color: var(--ink);
   font-family: "Yu Gothic", "Hiragino Sans", Meiryo, sans-serif;
   background: #f8faf9;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+#top {
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 body.nav-open { overflow: hidden; }
@@ -120,6 +130,13 @@ img { display: block; max-width: 100%; }
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 32px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.brand {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .brand strong,
@@ -222,7 +239,6 @@ img { display: block; max-width: 100%; }
 
 body.header-on-light .brand strong {
   color: rgba(23, 35, 46, .92);
-  text-shadow: none;
 }
 
 body.header-on-light .brand small {
@@ -512,6 +528,11 @@ body.header-on-light .nav-toggle span {
   gap: 48px;
   padding: 64px 72px;
   min-height: 360px;
+}
+
+.product-panel > img,
+.product-panel > div {
+  min-width: 0;
 }
 
 .product-panel img {
@@ -874,7 +895,10 @@ button[type="submit"]:hover {
   }
 
   .site-header {
-    inset: 24px;
+    top: 24px;
+    left: 24px;
+    right: 24px;
+    bottom: auto;
     z-index: 1000;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 12px;
@@ -940,6 +964,8 @@ button[type="submit"]:hover {
     color: rgba(255,255,255,.9);
     border-bottom: 1px solid rgba(215, 239, 248, .14);
     transition: color .24s ease, padding-left .24s ease;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .site-nav a .nav-ja {
@@ -1090,12 +1116,31 @@ button[type="submit"]:hover {
 
 @media (max-width: 640px) {
   .site-header {
-    inset: 24px 16px auto;
+    position: fixed;
+    top: 24px;
+    left: 16px;
+    right: 16px;
+    bottom: auto;
+    z-index: 1000;
     align-items: start;
   }
 
   .brand small {
     display: none;
+  }
+
+  .brand strong {
+    font-size: clamp(17px, 4.9vw, 22px);
+    letter-spacing: .16em;
+    text-shadow:
+      0 1px 2px rgba(2, 12, 22, .88),
+      0 2px 16px rgba(2, 12, 22, .48);
+  }
+
+  body.header-on-light .brand strong {
+    text-shadow:
+      0 1px 2px rgba(255, 255, 255, .95),
+      0 0 14px rgba(0, 28, 46, .22);
   }
 
   .hero {
@@ -1164,11 +1209,20 @@ button[type="submit"]:hover {
   }
 
   .product-panel h2 {
-    font-size: 22px;
+    font-size: clamp(18px, 5.2vw, 24px);
   }
 
   .product-still {
     display: none;
+  }
+
+  .about-copy h2,
+  .story-copy h2,
+  .section-head h2,
+  .contact-panel h2 {
+    font-size: clamp(20px, 5.6vw, 27px);
+    line-height: 1.42;
+    letter-spacing: .03em;
   }
 
   .quality-grid {
@@ -1188,6 +1242,12 @@ button[type="submit"]:hover {
   .footer {
     flex-direction: column;
     padding: 32px 16px;
+  }
+}
+
+@media (min-width: 641px) {
+  .contact-heading-br {
+    display: none;
   }
 }
 
